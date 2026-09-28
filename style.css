@@ -1,0 +1,197 @@
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #76c8de;
+}
+
+#playground {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+/* Endless-for-now ocean texture. JS moves the texture with cameraX/cameraY. */
+#oceanBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("assets/bgtemp.png");
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: 1920px 1080px;
+  will-change: background-position;
+}
+
+#particleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/*
+  Outer locomotion layer.
+  This is the same 341 x 192 shark footprint used by the existing prototype.
+  JS changes only left/top/rotation here.
+*/
+#whaleshark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 426px;
+  height: 240px;
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  will-change: left, top, transform;
+}
+
+/* Inner idle layer. This animates only after the shark stops moving. */
+.shark-motion {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  z-index: 1;
+}
+
+/*
+  Every supplied layer is 1920 x 1080 and shares the exact same registration
+  canvas, so all seven images are stacked at the same size and position.
+*/
+.shark-part {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, filter;
+  filter: drop-shadow(2px 4px 3px rgba(0, 47, 67, 0.13));
+}
+
+.headbody { transform-origin: 50% 50%; }
+.lowerbody { transform-origin: 50% 47.2%; }
+.leftfin { transform-origin: 45.05% 32.4%; }
+.rightfin { transform-origin: 55.2% 31.9%; }
+.tailfin { transform-origin: 47.55% 76.3%; }
+.dorsal-a { transform-origin: 50.5% 46.3%; }
+.dorsal-b { transform-origin: 49.9% 63.9%; }
+
+/* Soft underwater depth shadow, carried along by the locomotion wrapper. */
+.shark-shadow {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 44%;
+  height: 54%;
+  transform: translate(-50%, -50%) translate(10px, 12px) rotate(-3deg);
+  border-radius: 50%;
+  background: rgba(0, 45, 73, 0.27);
+  filter: blur(14px);
+  opacity: 0.64;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+
+/* Figma GLIDE control: 167x71 at x=1695, y=971 on the 1920x1080 canvas. */
+.glide-control {
+  position: absolute;
+  right: 58px;
+  bottom: 38px;
+  z-index: 5;
+  width: 167px;
+  height: 127px;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.glide-label {
+  position: absolute;
+  left: 29px;
+  top: 0;
+  width: 108px;
+  height: 51px;
+  color: #001b32;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.glide-toggle {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 167px;
+  height: 71px;
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glide-option {
+  height: 71px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.glide-on {
+  width: 83.5px;
+  padding-left: 20px;
+}
+
+.glide-off {
+  width: 83.5px;
+  padding-left: 13.5px;
+}
+
+.glide-toggle.is-on .glide-on,
+.glide-toggle:not(.is-on) .glide-off {
+  background: #001b32;
+  color: #ffffff;
+}
+
+.glide-toggle.is-on .glide-off,
+.glide-toggle:not(.is-on) .glide-on {
+  background: #d9d9d9;
+  color: #001b32;
+}
+
+.glide-toggle:focus-visible {
+  outline: 2px solid #001b32;
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px), (max-height: 650px) {
+  .glide-control {
+    transform: scale(0.72);
+    transform-origin: bottom right;
+    right: 24px;
+    bottom: 24px;
+  }
+}
