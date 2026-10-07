@@ -1,0 +1,281 @@
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #76c8de;
+}
+
+#playground {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: crosshair;
+  isolation: isolate;
+}
+
+/*
+  Fixed logical world: 7680 × 4320.
+  It contains 16 references to the SAME 1920 × 1080 background image.
+  Adjacent columns are mirrored on X, adjacent rows on Y.
+*/
+#worldBackground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 7680px;
+  height: 4320px;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: 0 0;
+  will-change: transform;
+  overflow: hidden;
+}
+
+.ocean-tile {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+}
+
+.ocean-tile img {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  max-width: none;
+  display: block;
+  transform-origin: 50% 50%;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* World-positioned animated encounters. */
+#animalLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.world-animal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  user-select: none;
+  pointer-events: none;
+  backface-visibility: hidden;
+  will-change: left, top, transform;
+  filter:
+    drop-shadow(6px 9px 5px rgba(0, 43, 66, 0.18))
+    drop-shadow(11px 15px 12px rgba(0, 43, 66, 0.08));
+}
+
+/* Biological display scale remains locked at 125 px = 1 m.
+   Exact long-axis sizing is applied in JS because some videos face upward. */
+
+#particleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Hero reef shark, 2.5 m × 125 px/m ≈ 313 px visible biological length. */
+#reefShark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 426px;
+  height: 240px;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  will-change: left, top, transform;
+}
+
+.shark-motion {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  z-index: 1;
+}
+
+.shark-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  display: block;
+  filter:
+    drop-shadow(8px 11px 6px rgba(0, 43, 66, 0.25))
+    drop-shadow(15px 20px 15px rgba(0, 43, 66, 0.13));
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+
+/* -------------------------------------------------------------
+   MINI MAP V1
+   Bottom-left. The canvas itself displays a 75% × 75% window of
+   the logical world, following the hero and clamping at the edges.
+------------------------------------------------------------- */
+
+.mini-map-panel {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  z-index: 6;
+  width: 320px;
+  padding: 10px 10px 11px;
+  box-sizing: border-box;
+  background: rgba(231, 244, 247, 0.68);
+  border: 1px solid rgba(0, 27, 50, 0.18);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.mini-map-header {
+  height: 22px;
+  padding: 0 3px 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #001b32;
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.mini-map-key {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.key-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 4px;
+}
+
+.creature-dot {
+  background: #ff4b45;
+}
+
+.hero-dot {
+  background: #32a7ff;
+}
+
+#miniMapCanvas {
+  display: block;
+  width: 300px;
+  height: 169px;
+}
+
+/* OFF / GLIDE / MOVE control */
+.movement-control {
+  position: absolute;
+  right: 46px;
+  bottom: 38px;
+  z-index: 6;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.movement-label {
+  margin: 0 0 7px 3px;
+  color: #001b32;
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+.movement-toggle {
+  display: flex;
+  height: 58px;
+  background: rgba(217, 217, 217, 0.92);
+  border: 1px solid rgba(0, 27, 50, 0.18);
+  backdrop-filter: blur(5px);
+}
+
+.mode-option {
+  min-width: 92px;
+  height: 58px;
+  padding: 0 16px;
+  border: 0;
+  border-right: 1px solid rgba(0, 27, 50, 0.16);
+  background: transparent;
+  color: #001b32;
+  cursor: pointer;
+  font-family: "Space Grotesk", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.mode-option:last-child {
+  border-right: 0;
+}
+
+.mode-option.is-active {
+  background: #001b32;
+  color: #fff;
+}
+
+.mode-option:focus-visible {
+  outline: 2px solid #001b32;
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px), (max-height: 650px) {
+  .mini-map-panel {
+    left: 14px;
+    bottom: 14px;
+    transform: scale(0.78);
+    transform-origin: bottom left;
+  }
+
+  .movement-control {
+    right: 20px;
+    bottom: 20px;
+    transform: scale(0.78);
+    transform-origin: bottom right;
+  }
+}

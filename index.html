@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missing Piece — 4×4 Ocean World</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main id="playground" aria-label="Missing Piece ocean exploration">
+
+    <!-- 4 × 4 world background. JS fills this with mirrored 1920 × 1080 tiles. -->
+    <div id="worldBackground" aria-hidden="true"></div>
+
+    <!-- Animated encounter animals. Positions are WORLD coordinates; videos are transparent WebM. -->
+    <div id="animalLayer" aria-hidden="true">
+      <video id="mantaRay" class="world-animal manta" src="assets/animals/manta.webm" muted loop autoplay playsinline preload="auto"></video>
+      <video id="whaleSharkAnimal" class="world-animal whale-shark-animal" src="assets/animals/whaleshark.webm" muted loop autoplay playsinline preload="auto"></video>
+      <video id="cuttlefish" class="world-animal cuttlefish" src="assets/animals/cuttlefish.webm" muted loop autoplay playsinline preload="auto"></video>
+      <video id="narwhal" class="world-animal narwhal" src="assets/animals/narwhal.webm" muted loop autoplay playsinline preload="auto"></video>
+    </div>
+
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+    <!-- Hero reef shark -->
+    <div id="reefShark" aria-label="Reef shark">
+      <div id="sharkMotion" class="shark-motion">
+        <video
+          id="sharkVideo"
+          class="shark-video"
+          src="shark-transparent.webm"
+          muted
+          loop
+          autoplay
+          playsinline
+          preload="auto"
+          aria-hidden="true"
+        ></video>
+      </div>
+    </div>
+
+
+    <!-- V1 local minimap: shows a moving window covering 75% of the world. -->
+    <aside id="miniMapPanel" class="mini-map-panel" aria-label="Creature minimap">
+      <div class="mini-map-header">
+        <span>MAP</span>
+        <span class="mini-map-key">
+          <i class="key-dot creature-dot"></i> creatures
+          <i class="key-dot hero-dot"></i> you
+        </span>
+      </div>
+      <canvas id="miniMapCanvas" width="320" height="180" aria-hidden="true"></canvas>
+    </aside>
+
+    <!-- Three-state navigation control -->
+    <div id="movementControl" class="movement-control" aria-label="Movement mode">
+      <div class="movement-label">MODE</div>
+      <div class="movement-toggle" role="group" aria-label="Reef shark movement mode">
+        <button class="mode-option" data-mode="off" type="button">OFF</button>
+        <button class="mode-option" data-mode="glide" type="button">GLIDE</button>
+        <button class="mode-option is-active" data-mode="move" type="button">MOVE</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
