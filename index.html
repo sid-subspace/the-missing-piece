@@ -13,12 +13,12 @@
     <!-- 4 × 4 world background. JS fills this with mirrored 1920 × 1080 tiles. -->
     <div id="worldBackground" aria-hidden="true"></div>
 
-    <!-- Animated encounter animals. Positions are WORLD coordinates; videos are transparent WebM. -->
+    <!-- Animated encounter animals. Positions are WORLD coordinates; source selection uses HEVC with alpha or WebM. -->
     <div id="animalLayer" aria-hidden="true">
-      <video id="mantaRay" class="world-animal manta" src="assets/animals/manta.webm" muted loop autoplay playsinline preload="auto"></video>
-      <video id="whaleSharkAnimal" class="world-animal whale-shark-animal" src="assets/animals/whaleshark.webm" muted loop autoplay playsinline preload="auto"></video>
-      <video id="cuttlefish" class="world-animal cuttlefish" src="assets/animals/cuttlefish.webm" muted loop autoplay playsinline preload="auto"></video>
-      <video id="narwhal" class="world-animal narwhal" src="assets/animals/narwhal.webm" muted loop autoplay playsinline preload="auto"></video>
+      <video id="mantaRay" class="world-animal manta" data-webm-src="assets/animals/manta.webm" data-hevc-src="assets/animals/manta-hevc.mov" muted loop autoplay playsinline preload="auto"></video>
+      <video id="whaleSharkAnimal" class="world-animal whale-shark-animal" data-webm-src="assets/animals/whaleshark.webm" data-hevc-src="assets/animals/whaleshark-hevc.mov" muted loop autoplay playsinline preload="auto"></video>
+      <video id="cuttlefish" class="world-animal cuttlefish" data-webm-src="assets/animals/cuttlefish-small.webm" data-hevc-src="assets/animals/cuttlefish-hevc.mov" muted loop autoplay playsinline preload="auto"></video>
+      <video id="narwhal" class="world-animal narwhal" data-webm-src="assets/animals/narwhal.webm" data-hevc-src="assets/animals/narwhal-hevc.mov" muted loop autoplay playsinline preload="auto"></video>
     </div>
 
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
