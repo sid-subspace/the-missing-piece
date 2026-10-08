@@ -257,6 +257,19 @@ function safePlay(video) {
   video.play().catch(() => {});
 }
 
+function prepareWorldAnimalSources() {
+  const hevcAlphaType = 'video/quicktime; codecs="hvc1"';
+
+  for (const animal of WORLD_ANIMALS) {
+    const video = animal.element;
+    if (!video) continue;
+
+    const supportsHevcAlpha = video.canPlayType(hevcAlphaType) !== '';
+    const source = supportsHevcAlpha ? video.dataset.hevcSrc : video.dataset.webmSrc;
+    if (source) video.src = source;
+  }
+}
+
 function prepareWorldAnimalVideos() {
   for (const animal of WORLD_ANIMALS) {
     const video = animal.element;
@@ -1987,6 +2000,7 @@ document.addEventListener("visibilitychange", () => {
 resizeCanvas();
 buildMirroredBackground();
 sizeWorldAnimals();
+prepareWorldAnimalSources();
 prepareWorldAnimalVideos();
 updateWorldAnimals(1 / 60, 0);
 refreshSharkBodySize();
