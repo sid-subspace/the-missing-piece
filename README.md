@@ -2,8 +2,6 @@
 
 *A quiet, illustrated ocean you can drift through as a reef shark.*
 
-![A reef shark moving through its fish school in the Missing Piece ocean](docs/media/world.gif)
-
 [Explore the live world](https://sid-subspace.github.io/the-missing-piece/).
 
 Missing Piece is a small browser ocean built around one reef shark. Guide it through a slow-moving school; four illustrated animals drift elsewhere in the 4 × 4 world. It is meant to feel open and unhurried. There is no score or finish line—move through the water, watch the school make room, and notice what appears.
